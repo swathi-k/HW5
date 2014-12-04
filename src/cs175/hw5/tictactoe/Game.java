@@ -35,7 +35,7 @@ public class Game extends View {
 				Toast.makeText(getContext(), "Computer Win!", Toast.LENGTH_SHORT).show();
 				break;
 			case 3:
-				Toast.makeText(getContext(), "Loose!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getContext(), "It's a Draw!", Toast.LENGTH_SHORT).show();
 				break;
 			default:
 				break;
