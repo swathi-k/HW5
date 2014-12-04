@@ -274,6 +274,11 @@ public class SnakeView extends TileView {
 
 	}
 
+	public void moveSnake(int coordx, int coordy) {
+		Log.i("Canvas", "Canvas clicked snakeview " + coordx + " " + coordy);
+		moveSnake1(coordx, coordy);
+		
+	}
 	public void moveSnake(int direction) {
 
 		if (direction == Snake.MOVE_UP) {
@@ -350,6 +355,40 @@ public class SnakeView extends TileView {
 	 * @param direction
 	 *            The desired direction of movement
 	 */
+	private void moveSnake1(int directx, int directy) {
+
+		int left = mwall.getWall(directx-1, directy);
+		int right = mwall.getWall(directx+1, directy);
+		int bottom = mwall.getWall(directx, directy+1);
+		int top = mwall.getWall(directx, directy-1);
+
+		Log.i("Canvas", "Canvas clicked movedsnakeview Top " + top);
+		Log.i("Canvas", "Canvas clicked getWall x " + directx + " y " + (directy-1));
+		Log.i("Canvas", "Canvas clicked movedsnakeview Bottom " + bottom);
+		Log.i("Canvas", "Canvas clicked getWall x " + directx + " y " + (directy+1));
+		Log.i("Canvas", "Canvas clicked movedsnakeview Left " + left);
+		Log.i("Canvas", "Canvas clicked getWall x " + (directx-1) + " y " + directy);
+		Log.i("Canvas", "Canvas clicked movedsnakeview Right " + right);
+		Log.i("Canvas", "Canvas clicked getWall x " + (directx+1) + " y " + directy);
+		Log.i("Canvas", "Canvas clicked getWall ymax " + mwall.getYMax());
+		
+		
+		if(left > 0 && right > 0 && left == right)
+			mwall.addWall(directx, directy, left);
+		if(top > 0 && bottom > 0 && top == bottom)
+			mwall.addWall(directx, directy, top);
+		
+		redrawWalls();
+	}
+	
+	/**
+	 * Handles snake movement triggers from Snake Activity and moves the snake
+	 * accordingly. Ignore events that would cause the snake to immediately turn
+	 * back on itself.
+	 * 
+	 * @param direction
+	 *            The desired direction of movement
+	 */
 	private void moveSnake1(int direction) {
 
 		if (direction == NORTH) {
@@ -367,6 +406,7 @@ public class SnakeView extends TileView {
 		}
 
 	}
+
 
 	/**
 	 * Sets the Dependent views that will be used to give information (such as
@@ -631,9 +671,7 @@ public class SnakeView extends TileView {
 					setTile(RED_STAR, i, j);
 				else if(rand == 3)
 					setTile(YELLOW_STAR, i, j);
-				else
-			//		setTile(BLUE_STAR, i, j);
-					setTile(GREEN_STAR, i, j);
+
 			}
 		}
 		
@@ -653,10 +691,6 @@ public class SnakeView extends TileView {
 					setTile(RED_STAR, i, j);
 				else if(rand == 3)
 					setTile(YELLOW_STAR, i, j);
-				else {
-			//		setTile(BLUE_STAR, i, j);
-					setTile(GREEN_STAR, i, j);}
-				
 			}
 		}
 	}

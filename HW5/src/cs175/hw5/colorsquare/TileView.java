@@ -109,6 +109,11 @@ public class TileView extends View {
 				}
 			}
 		}
+//		Log.i("Canvas height", "Canvas bitmap height " + canvas.getMaximumBitmapHeight());
+//		Log.i("Canvas width", "Canvas bitmap width " + canvas.getMaximumBitmapWidth());
+//		Log.i("Canvas height", "Canvas height " + canvas.getHeight());
+//		Log.i("Canvas width", "Canvas width " + canvas.getWidth());
+		
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package cs175.hw5.colorsquare;
 
+import android.util.Log;
+
 /**
  * Walls class keep track of walls when sanke is moving
  * 
@@ -29,6 +31,9 @@ public class Walls {
 	}
 
 	public int getWall(int x, int y) {
+		
+		
+		
 		if (x < 0 || y < 0)
 			return -1;
 

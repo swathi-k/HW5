@@ -69,41 +69,38 @@ public class Snake extends Activity {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (mSnakeView.getGameState() == SnakeView.RUNNING) {
-					// Normalize x,y between 0 and 1
-					// float x = event.getX() / v.getWidth();
-					// float y = event.getY() / v.getHeight();
-
-					// Direction will be [0,1,2,3] depending on quadrant
 					int direction = 0;
-					// direction = (x > y) ? 1 : 0;
-					// direction |= (x > 1 - y) ? 2 : 0;
 
-					float x = event.getX();
-					float y = event.getY();
+					float x = event.getX()-100;
+					float y = event.getY()-100;
+//					Log.i("Canvas height", "Canvas snake height " + v.getHeight());
+//					Log.i("Canvas width", "Canvas snake width " + v.getWidth());
 
-					float vy = v.getHeight() / 2;
-					float vx = v.getWidth() / 2;
-					// if(y < vy)
-					// {
-					if (x < vx)
-						direction = 0;
-					else
-						direction = 3;
-					// }
-					// else
-					// direction = 1;
-
-					// Direction is same as the quadrant which was clicked
-					Log.i("snakemoved1 " + direction, "snakemoved1 "
-							+ direction);
-					mSnakeView.moveSnake(direction);
-
-					mSnakeView.updateLabels();
+//					x = x/50;
+//					y = y/50;
+					//Log.i("Canvas", "Canvas clicked " + x + " " + y);
+					
+					if(x > 0 && x < 600 && y > 50 & y < 1000)
+					{
+						int xround = (int)Math.floor(x/50);
+						int yround = (int)Math.floor(y/50);
+						mSnakeView.moveSnake(xround, yround);
+						Log.i("Canvas", "Canvas clicked " + xround + " " + yround);
+						mSnakeView.updateLabels();
+	
+					}
+//					float vy = v.getHeight();
+//					float vx = v.getWidth();
+//
+//					if (x < vx)
+//						direction = 0;
+//					else
+//						direction = 3;
+// 
+//					Log.i("snakemoved1 " + direction, "snakemoved1 "
+//							+ direction);
 
 				} else {
-					// If the game is not running then on touching any part of
-					// the screen
-					// we start the game by sending MOVE_UP signal to SnakeView
 					if (mSnakeView.getGameState() == SnakeView.GAMEOVER) {
 						try {
 							Thread.sleep(3000);
