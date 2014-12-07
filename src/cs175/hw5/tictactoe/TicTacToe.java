@@ -1,13 +1,18 @@
 package cs175.hw5.tictactoe;
 
 import android.app.Activity;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 public class TicTacToe extends Activity {
 	private Game game1;
+	private SQLiteDatabase db;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,4 +40,33 @@ public class TicTacToe extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+    
+	private void loadDBData() {
+		// TODO Auto-generated method stub
+		int highscore = 0;
+		String result;
+		TextView displayScore = (TextView) findViewById(R.id.HigestScore);
+		MyDb sankeScore = new MyDb(this);
+		db = sankeScore.getReadableDatabase();
+
+		/****** Debug line 163 *****/
+
+		Cursor cursor = db.query("hw5", null, null, null, null, null, null);
+		if (cursor != null) {
+			highscore = cursor.getInt(cursor.getColumnIndex("HIGH_SCORE"));
+			result = Integer.toString(highscore);
+			displayScore.setText(result);
+
+			Log.i("what is result", "" + result);
+
+		} else {
+			result = "0";
+			displayScore.setText(result);
+			Log.i("what is result", " is it here" + result);
+		}
+
+		cursor.close();
+
+	}
+
 }

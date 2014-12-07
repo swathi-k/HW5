@@ -1,16 +1,22 @@
 package cs175.hw5.tictactoe;
 
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Game extends View {
+	
 
 	private Cell[][] singlesquare = null;
 	int x = 3;
@@ -29,6 +35,7 @@ public class Game extends View {
 				invalidate();
 				break;
 			case 1:
+				setHighestScore();
 				Toast.makeText(getContext(), "You Win!", Toast.LENGTH_SHORT).show();
 				break;
 			case 2:
@@ -42,6 +49,8 @@ public class Game extends View {
 			}
 
 			super.handleMessage(msg);
+			
+			
 		}
 	};
 
@@ -141,13 +150,20 @@ public class Game extends View {
 				handler.sendMessage(Message.obtain(handler, 2));
 			}
 			resizegame(x);
+			Intent intent = new Intent(getContext(), MainActivity.class);
+			getContext().startActivity(intent);
 			
 		} else if (isFull()) {
 			System.out.println("Loose");
 			handler.sendMessage(Message.obtain(handler, 3));
 			resizegame(x);
+			Intent intent = new Intent(getContext(), MainActivity.class);
+			getContext().startActivity(intent);
 		
 		}
+		
+		
+
 	}
 
 	private boolean validate_game() {
@@ -273,4 +289,61 @@ public class Game extends View {
 	public int getPlayerwin() {
 		return playerwin;
 	}
+	
+	private void setHighestScore() {
+		initDB();
+		int scoreInDb = getHighestScoreFromDB();
+
+		Log.i("Existing DB Score is :", " " + scoreInDb);
+		
+		scoreInDb++;
+
+		Log.i("Current score is the highest score :", " " + scoreInDb);
+		MyDb snake = new MyDb(getContext());
+		SQLiteDatabase db = snake.getWritableDatabase();
+
+		db.execSQL("update hw5 set HIGH_SCORE =" + scoreInDb
+				+ " where name = 'player 1'");
+		db.close();
+		
+
+	}
+	
+	private void initDB() {
+		MyDb snake = new MyDb(getContext());
+		SQLiteDatabase db = snake.getWritableDatabase();
+		// create table at first time
+		String sql = "create table if not exists hw5 (name varchar(50), speed integer, HIGH_SCORE integer, score intger)";
+		db.execSQL(sql);
+
+		// db.execSQL("delete from hw5 where name = 'player 1'");
+		Cursor rawQuery = db.rawQuery(
+				"select * from hw5 where name = 'player 1'", null);
+
+		if (rawQuery.getCount() == 0) {
+			db.execSQL("insert into hw5 (name, HIGH_SCORE) values('player 1', 0)");
+		}
+		rawQuery.close();
+		db.close();
+	}
+
+	private int getHighestScoreFromDB() {
+		initDB();
+		MyDb snake = new MyDb(getContext());
+		SQLiteDatabase db = snake.getReadableDatabase();
+		Cursor cursor = db.rawQuery(
+				"select * from hw5 where name = 'player 1'", null);
+		cursor.moveToFirst();
+		int count = cursor.getColumnCount();
+		int scoreInDb = 0;
+		if (count > 0) {
+			scoreInDb = cursor.getInt(cursor.getColumnIndex("HIGH_SCORE"));
+		}
+
+		cursor.close();
+		db.close();
+		return scoreInDb;
+	}
+
+
 }

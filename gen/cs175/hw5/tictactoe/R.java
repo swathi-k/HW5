@@ -28,7 +28,9 @@ public final class R {
         public static final int vazio=0x7f020003;
     }
     public static final class id {
-        public static final int action_settings=0x7f080002;
+        public static final int HigestScore=0x7f080003;
+        public static final int HighScore=0x7f080002;
+        public static final int action_settings=0x7f080004;
         public static final int scoresButton=0x7f080001;
         public static final int startButton=0x7f080000;
     }
@@ -42,6 +44,7 @@ public final class R {
     public static final class string {
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
+        public static final int high_scores=0x7f050004;
         public static final int scores_button=0x7f050003;
         public static final int start_button=0x7f050002;
     }

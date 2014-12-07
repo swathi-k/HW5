@@ -21,5 +21,26 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="57dp"
         android:text="@string/scores_button" />
-    
+
+     <TextView
+         android:id="@+id/HighScore"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignBaseline="@+id/HigestScore"
+         android:layout_alignBottom="@+id/HigestScore"
+         android:layout_alignParentLeft="true"
+         android:layout_marginLeft="28dp"
+         android:text="@string/high_scores"
+         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+     <TextView
+         android:id="@+id/HigestScore"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentTop="true"
+         android:layout_marginTop="51dp"
+         android:layout_toRightOf="@+id/scoresButton"
+         android:text="0"
+         android:textAppearance="?android:attr/textAppearanceLarge" />
+
 </RelativeLayout>
