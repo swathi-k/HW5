@@ -1,9 +1,18 @@
 package cs175.hw5.tictactoe;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.os.StrictMode.ThreadPolicy;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -68,5 +77,63 @@ public class TicTacToe extends Activity {
 		cursor.close();
 
 	}
+
+    /*
+     * Gets statistics from the server as a string
+     * @param fname - the user's first name
+     * @param lname - the user's last name
+     * @return returns a statistic string
+     */
+    private String getStatFromServer(String fname, String lname) {
+	// allows networking to run on the main/UI thread
+	ThreadPolicy tp = ThreadPolicy.LAX;
+	StrictMode.setThreadPolicy(tp);
+	String userName = fname + " " + lname;
+	
+	String resultToSend = "statistics:" + userName;
+
+	Socket socket = null;
+	BufferedReader reader = null;
+	PrintWriter writer = null;
+	String outputResult = "";
+
+	try {
+	    socket = new Socket(MainActivity.IP_ADDRESS, MainActivity.PORT);
+	    reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+	    writer = new PrintWriter(socket.getOutputStream(), true);
+
+	    String input = reader.readLine();
+
+	    if (input.equals("Fingercise Server")) {
+		writer.println(resultToSend);
+	    }
+	    
+	    while ((input = reader.readLine()) != null)
+		outputResult += input + "\n";
+
+	} catch (UnknownHostException e) {
+	    Log.d(getLocalClassName(), "Unable to connect to "
+		    + MainActivity.IP_ADDRESS + ":" + MainActivity.PORT);
+	    e.printStackTrace();
+	} catch (IOException e) {
+	    e.printStackTrace();
+	} finally {
+	    try {
+		if (reader != null) {
+		    reader.close();
+		}
+		if (writer != null) {
+		    writer.close();
+		}
+		if (socket != null) {
+		    socket.close();
+		}
+	    } catch (IOException e) {
+		e.printStackTrace();
+	    }
+	}
+	
+	return outputResult;
+    }
 
 }
