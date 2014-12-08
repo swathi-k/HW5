@@ -8,5 +8,11 @@
     <string name="start_button">Start the Game!</string>
     <string name="scores_button">Scores</string>
     <string name="high_scores">Highest Score:</string>
+    <string name="current_scores">Current Score:</string>
+    <string name="main_menu_button">Main Menu</string>
+    <string name="keep_going_button">Keep Playing</string>
+    
+    
+    
 
 </resources>
